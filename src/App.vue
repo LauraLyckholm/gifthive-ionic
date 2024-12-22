@@ -11,6 +11,7 @@ import {
   IonSplitPane,
 } from '@ionic/vue';
 import { ref } from 'vue';
+import honeyImage from './assets/honey.svg';
 
 const selectedIndex = ref(0);
 const appPages = [
@@ -19,16 +20,20 @@ const appPages = [
     url: '/folder/Dashboard',
   },
   {
-    title: 'Hives',
+    title: 'All hives',
     url: '/folder/Hives',
+  },
+  {
+    title: 'Shared hives',
+    url: '/folder/Shared',
+  },
+  {
+    title: 'FAQ',
+    url: '/folder/Faq',
   },
   {
     title: 'Account',
     url: '/folder/Account',
-  },
-  {
-    title: 'Faq',
-    url: '/folder/Faq',
   },
 ];
 
@@ -44,11 +49,12 @@ if (path !== undefined) {
     <ion-split-pane content-id="main-content">
       <ion-menu content-id="main-content" type="overlay" side="end">
         <ion-content>
-          <ion-list id="inbox-list">
+          <img class="honey-image" :src="honeyImage" alt="Image of honey dripping down the menu">
+          <ion-list class="menu-list">
             <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
               <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none"
-                :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
-                <ion-label class="label">{{ p.title }}</ion-label>
+                :detail="false" class="menu-list__item hydrated" :class="{ selected: selectedIndex === i }">
+                <ion-label slot="end" class="menu-list__item-label">{{ p.title }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
@@ -59,8 +65,26 @@ if (path !== undefined) {
   </ion-app>
 </template>
 
-<style scoped>
-ion-menu ion-content {
+<style scoped lang="scss">
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  gap: 0.75rem;
+  &__item {
+    &-label {
+      color: var(--ion-color-secondary);
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+}
+.honey-image {
+  position: relative;
+  top: -7px;
+  left: 153px;
+}
+/* ion-menu ion-content {
   --background: var(--ion-item-background, var(--ion-background-color, #fff));
 }
 
@@ -121,9 +145,9 @@ ion-menu.ios ion-item.selected ion-icon {
   color: var(--ion-color-primary);
 }
 
-/* ion-item.selected {
+ion-item.selected {
   --color: var(--ion-color-primary);
-} */
+}
 
 ion-menu.md ion-item ion-icon {
   color: var(--ion-color-secondary);
@@ -176,8 +200,7 @@ ion-note {
   font-size: 16px;
   color: var(--ion-color-secondary);
 }
+ */
 
-.label {
-  color: var(--ion-color-secondary);
-}
+
 </style>

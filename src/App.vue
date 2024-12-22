@@ -12,6 +12,7 @@ import {
 } from '@ionic/vue';
 import { ref } from 'vue';
 import honeyImage from './assets/honey.svg';
+import { useUserInformation } from '../composables/user-information';
 
 const selectedIndex = ref(0);
 const appPages = [
@@ -42,6 +43,9 @@ if (path !== undefined) {
   selectedIndex.value = appPages.findIndex((page) => page.title.toLowerCase() === path.toLowerCase());
 }
 
+const { getDashboard } = useUserInformation();
+console.log(await getDashboard());
+
 </script>
 
 <template>
@@ -71,23 +75,32 @@ if (path !== undefined) {
   flex-direction: column;
   margin-top: 2rem;
   gap: 0.75rem;
+  background: white;
   &__item {
     &-label {
       color: var(--ion-color-secondary);
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 500;
     }
   }
 }
 .honey-image {
   position: relative;
   top: -7px;
-  left: 153px;
-}
-/* ion-menu ion-content {
-  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+  left: 156px;
 }
 
+ion-menu ion-content {
+  --background: white;
+}
+
+ion-item {
+  --background: white;
+  --background-hover: none;
+}
+
+
+/* 
 ion-menu.md ion-content {
   --padding-start: 8px;
   --padding-end: 8px;
@@ -136,14 +149,6 @@ ion-menu.md ion-item.selected {
   --background: rgba(var(--ion-color-primary-rgb), 0.14);
 }
 
-ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
-}
-
-
-ion-menu.ios ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
-}
 
 ion-item.selected {
   --color: var(--ion-color-primary);

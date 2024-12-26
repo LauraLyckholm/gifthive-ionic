@@ -12,7 +12,10 @@ import {
 } from '@ionic/vue';
 import { ref } from 'vue';
 import honeyImage from './assets/honey.svg';
-import { useUserInformation } from '../composables/user-information';
+import { useGetDashboard } from '../composables/get-dashbord';
+import { useRegisterUser } from '../composables/register-user';
+import { useLoginUser } from '../composables/login-user';
+import { useLogoutUser } from '../composables/logout-user';
 
 const selectedIndex = ref(0);
 const appPages = [
@@ -43,8 +46,15 @@ if (path !== undefined) {
   selectedIndex.value = appPages.findIndex((page) => page.title.toLowerCase() === path.toLowerCase());
 }
 
-const { getDashboard } = useUserInformation();
-console.log(await getDashboard());
+// const dashboard = await useGetDashboard();
+// console.log(dashboard.value);
+
+// const register = await useRegisterUser('Paura', 'Paura123', 'laura.paura@gmail.com');
+
+// const register = await useLoginUser('Paura', 'Paura123', '676d5de2a0670f8b701bac3c');
+
+// const logout = useLogoutUser();
+// console.log(register);
 
 </script>
 

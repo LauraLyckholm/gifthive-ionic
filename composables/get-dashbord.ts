@@ -7,7 +7,7 @@ const { loadingUser, setDashboard, dashboard } = useUserStates();
 
 export const useGetDashboard = async () => {
     try {
-        loadingUser.value = true
+        setIsLoadingUser(true)
         const response = await fetch(withEndpoint("dashboard"), {
             headers: {
                 "Auth": localStorage.getItem("accessToken") || ""
@@ -17,7 +17,7 @@ export const useGetDashboard = async () => {
         if (response.ok) {
             const data = await response.json()
             setDashboard(data);
-            loadingUser.value = false
+            setIsLoadingUser(false)
         }
     } catch (error) {
         console.error("There was an error =>", error)

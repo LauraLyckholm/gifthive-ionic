@@ -4,7 +4,7 @@ import { computed } from "vue";
 
 const withEndpoint = (endpoint: string) => `${API_URL}/user-routes/${endpoint}`;
 
-const { loadingUser, isLoggedIn, errorMessage, setUsername, setPassword, setEmail, setUserId, setAccessToken, setErrorMessage } = useUserStates();
+const { isLoggedIn, errorMessage, setUsername, setPassword, setEmail, setUserId, setAccessToken, setErrorMessage, setIsLoadingUser, setIsLoggedIn } = useUserStates();
 
 export const useLoginUser = async (username: string, password: string, userId: string) => {
 
@@ -14,7 +14,7 @@ export const useLoginUser = async (username: string, password: string, userId: s
     }
 
     try {
-        loadingUser.value = true
+        setIsLoadingUser(true)
 
         const response = await fetch(withEndpoint("login"), {
             method: "POST",
@@ -29,7 +29,7 @@ export const useLoginUser = async (username: string, password: string, userId: s
         })
         const data = await response.json();
         const successfullFetch = data.success;
-        console.log('data:', data);
+
         const constructErrorMessage = computed(() => {
             if (response.status === 401) {
                 return setErrorMessage("Wrong username or password, please try again");
@@ -42,7 +42,7 @@ export const useLoginUser = async (username: string, password: string, userId: s
         console.log('response:', data.response);
 
         if (!response.ok) {
-            loadingUser.value = false;
+            setIsLoadingUser(false);
             constructErrorMessage.value;
             throw new Error(`${response.status}: "${errorMessage.value}"`);
         }
@@ -52,20 +52,22 @@ export const useLoginUser = async (username: string, password: string, userId: s
             setAccessToken(data.response.accessToken);
             setUserId(data.response._id);
             setEmail(data.response.email);
-            loadingUser.value = false;
-            isLoggedIn.value = true;
+            setIsLoadingUser(false);
+            setIsLoggedIn(true);
 
-            localStorage.setItem("accessToken", data.accessToken);
-            localStorage.setItem("username", username);
-            localStorage.setItem("userId", data._id);
-            localStorage.setItem("isLoggedIn", isLoggedIn.value.toString());
-            localStorage.setItem("email", data.email)
+            console.log(isLoggedIn.value);
+
+            // localStorage.setItem("accessToken", data.accessToken);
+            // localStorage.setItem("username", username);
+            // localStorage.setItem("userId", data._id);
+            // localStorage.setItem("isLoggedIn", isLoggedIn.value.toString());
+            // localStorage.setItem("email", data.email)
         } else {
             setUsername("");
             setEmail("");
             setAccessToken("");
-            isLoggedIn.value = false;
-            loadingUser.value = false;
+            setIsLoggedIn(false);
+            setIsLoadingUser(false);
 
             throw new Error(`${response.status}: "${errorMessage.value}"`);
         }
@@ -74,7 +76,7 @@ export const useLoginUser = async (username: string, password: string, userId: s
         setUsername("");
         setPassword("");
         setEmail("");
-        loadingUser.value = false;
+        setIsLoadingUser(false);
         errorMessage.value = "Login failed, please try again";
 
         console.error("There was an error =>", error)

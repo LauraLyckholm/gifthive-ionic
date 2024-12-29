@@ -17,7 +17,7 @@ export const useRegisterUser = async (username: string, password: string, email:
 
 
     try {
-        loadingUser.value = true
+        setIsLoadingUser(true)
 
         const response = await fetch(withEndpoint("register"), {
             method: "POST",
@@ -44,7 +44,7 @@ export const useRegisterUser = async (username: string, password: string, email:
         })
 
         if (!response.ok) {
-            loadingUser.value = false;
+            setIsLoadingUser(false);
             constructErrorMessage.value;
             throw new Error(`${response.status}: "${errorMessage.value}"`);
         }
@@ -52,14 +52,14 @@ export const useRegisterUser = async (username: string, password: string, email:
         if (successfullFetch) {
             setUsername(data.username);
             setEmail(data.email);
-            loadingUser.value = false;
+            setIsLoadingUser(false);
         }
 
     } catch (error) {
         setUsername("");
         setEmail("");
         setPassword("");
-        loadingUser.value = false;
+        setIsLoadingUser(false);
 
         console.error("There was an error =>", error)
     }

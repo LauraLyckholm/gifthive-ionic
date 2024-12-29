@@ -8,6 +8,6 @@ export const useLogoutUser = () => {
     setEmail("");
     setUserId("");
     setAccessToken("");
-    isLoggedIn.value = false;
+    setIsLoggedIn(false);
     localStorage.clear();
 };

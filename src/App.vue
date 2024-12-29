@@ -10,12 +10,13 @@ import {
   IonRouterOutlet,
   IonSplitPane,
 } from '@ionic/vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import honeyImage from './assets/honey.svg';
-import { useGetDashboard } from '../composables/get-dashbord';
-import { useRegisterUser } from '../composables/register-user';
+// import { useGetDashboard } from '../composables/get-dashbord';
+// import { useRegisterUser } from '../composables/register-user';
 import { useLoginUser } from '../composables/login-user';
 import { useLogoutUser } from '../composables/logout-user';
+import { useUserStates } from '../composables/user-states';
 
 const selectedIndex = ref(0);
 const appPages = [
@@ -51,10 +52,15 @@ if (path !== undefined) {
 
 // const register = await useRegisterUser('Paura', 'Paura123', 'laura.paura@gmail.com');
 
-// const register = await useLoginUser('Paura', 'Paura123', '676d5de2a0670f8b701bac3c');
-
 // const logout = useLogoutUser();
-// console.log(register);
+// // console.log(logout);
+
+// const loginUser = await useLoginUser('Paura', 'Paura123', '676d5de2a0670f8b701bac3c');
+
+
+// const { isLoggedIn } = useUserStates();
+// console.log(isLoggedIn.value);
+
 
 </script>
 
